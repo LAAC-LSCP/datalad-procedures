@@ -16,16 +16,20 @@ ds = require_dataset(
     purpose = 'setup empty dataset'
 )
 
+dataset_name = os.path.basename(ds.path)
+organization = 'LAAC-LSCP'
+template = 'https://github.com/LAAC-LSCP/laac-template'
+
 # remove files to be replaced
 os.remove(os.path.join(sys.argv[1], ".gitattributes"))
 
 # download empty-dataset template
-res = requests.get("https://github.com/LAAC-LSCP/empty-dataset/archive/master.zip")
+res = requests.get("{}/archive/master.zip".format(template))
 open("master.zip", "wb").write(res.content)
 
 with zipfile.ZipFile("master.zip") as zip_file:
     for member in zip_file.namelist():
-        filename = member.replace("empty-dataset-master/", "")
+        filename = member.replace("{}-master/".format(os.path.basename(template)), "")
 
         source = zip_file.open(member)
         dest = os.path.join(sys.argv[1], filename)
@@ -44,7 +48,7 @@ with zipfile.ZipFile("master.zip") as zip_file:
 
 os.remove("master.zip")
 
-open(os.path.join(sys.argv[1], '.datalad/path'), 'w+').write(os.path.join('/scratch1/data/laac_data/', os.path.basename(ds.path)))
+open(os.path.join(sys.argv[1], '.datalad/path'), 'w+').write(os.path.join('/scratch1/data/laac_data/', dataset_name))
 
 # commit everything
 repo = Repo(sys.argv[1])
@@ -66,9 +70,9 @@ datalad.api.create_sibling(
 # create github sibling
 datalad.api.create_sibling_github(
     name = 'origin',
-    reponame = os.path.basename(ds.path),
+    reponame = dataset_name,
     dataset = ds,
-    github_organization = 'LAAC-LSCP',
+    github_organization = organization,
     access_protocol = 'ssh',
     private = True,
     publish_depends = 'cluster'
