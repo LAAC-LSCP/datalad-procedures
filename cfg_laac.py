@@ -56,8 +56,8 @@ repo.git.add('*')
 repo.git.commit(m = "initial commit")
 
 url = open(os.path.join(sys.argv[1], '.datalad/path')).read().strip()
-if os.getenv('OBERON_ALIAS'):
-    url = "ssh://{}{}".format(os.getenv('OBERON_ALIAS'), url)
+if os.getenv('CLUSTER_ALIAS'):
+    url = "ssh://{}{}".format(os.getenv('CLUSTER_ALIAS'), url)
 
 # create the cluster sibling
 datalad.api.create_sibling(
