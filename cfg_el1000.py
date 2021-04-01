@@ -17,18 +17,18 @@ ds = require_dataset(
 )
 
 dataset_name = os.path.basename(ds.path)
-organization = os.getenv('GIT_ORGANIZATION')
+organization = os.getenv('EL1000_ORGANIZATION')
+has_confidential_sibling = int(os.getenv('EL1000_CONFIDENTIAL')) == 1
 
 # remove files to be replaced
 os.remove(os.path.join(sys.argv[1], ".gitattributes"))
 
-# download empty-dataset template
-res = requests.get("https://gin.g-node.org/EL1000/template/archive/master.zip")
+res = requests.get("https://github.com/LAAC-LSCP/el1000-template/archive/master.zip")
 open("master.zip", "wb").write(res.content)
 
 with zipfile.ZipFile("master.zip") as zip_file:
     for member in zip_file.namelist():
-        filename = member.replace("empty-dataset-master/", "")
+        filename = member.replace("el1000-template-master/", "")
 
         source = zip_file.open(member)
         dest = os.path.join(sys.argv[1], filename)
@@ -55,8 +55,7 @@ repo.git.add('*')
 repo.git.commit(m = "initial commit")
 
 url = "git@gin.g-node.org:/{}/{}.git".format(organization, dataset_name)
-
-print(url)
+confidential_url = "git@gin.g-node.org:/{}/{}-confidential.git".format(organization, dataset_name)
 
 # create the cluster sibling
 datalad.api.siblings(
@@ -66,13 +65,42 @@ datalad.api.siblings(
     url = url
 )
 
+master = repo.heads.master
+master.rename('main')
+
 datalad.api.push(dataset = ds, to = 'origin')   
-repo.heads.master.set_tracking_branch(repo.remotes.origin.refs.master)
+
+master.set_tracking_branch(repo.remotes.origin.refs.main)
 
 datalad.api.siblings(
     name = 'origin',
     dataset = ds,
     action = 'configure',
     annex_wanted = '(include=*) and (exclude=**/confidential/*)',
-    annex_required = '(include=*) and (exclude=**/confidential/*)'  
+    annex_required = '(include=*) and (exclude=**/confidential/*)'
 )
+
+if has_confidential_sibling:
+    datalad.api.siblings(
+        name = 'confidential',
+        dataset = ds,
+        action = 'add',
+        url = confidential_url
+    )
+
+    datalad.api.push(dataset = ds, to = 'confidential')
+
+    datalad.api.siblings(
+        name = 'confidential',
+        dataset = ds,
+        action = 'configure',
+        annex_wanted = 'include=**/confidential/*',
+        annex_required = 'include=**/confidential/*'
+    )
+
+    datalad.api.siblings(
+        name = 'origin',
+        dataset = ds,
+        action = 'configure',
+        publish_depends = 'confidential'
+    )

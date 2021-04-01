@@ -20,12 +20,12 @@ ds = require_dataset(
 os.remove(os.path.join(sys.argv[1], ".gitattributes"))
 
 # download empty-dataset template
-res = requests.get("https://github.com/LAAC-LSCP/empty-dataset/archive/master.zip")
+res = requests.get("https://github.com/LAAC-LSCP/laac-template/archive/master.zip")
 open("master.zip", "wb").write(res.content)
 
 with zipfile.ZipFile("master.zip") as zip_file:
     for member in zip_file.namelist():
-        filename = member.replace("empty-dataset-master/", "")
+        filename = member.replace("laac-template-master/", "")
 
         source = zip_file.open(member)
         dest = os.path.join(sys.argv[1], filename)
