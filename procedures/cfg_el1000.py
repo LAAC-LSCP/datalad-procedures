@@ -17,8 +17,8 @@ ds = require_dataset(
 )
 
 dataset_name = os.path.basename(ds.path)
-organization = os.getenv('EL1000_ORGANIZATION')
-has_confidential_sibling = int(os.getenv('EL1000_CONFIDENTIAL')) == 1
+organization = os.getenv('GIN_ORGANIZATION')
+has_confidential_sibling = int(os.getenv('CONFIDENTIAL_DATASET')) == 1
 
 # remove files to be replaced
 os.remove(os.path.join(sys.argv[1], ".gitattributes"))
