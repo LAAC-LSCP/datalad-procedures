@@ -6,3 +6,4 @@
 	path = templates/laac1
 	url = git@github.com:LAAC-LSCP/laac1-template.git
 	datalad-id = 9857761d-9fc3-4884-9a2f-7e28b4682f26
+	datalad-url = git@github.com:LAAC-LSCP/laac1-template.git
