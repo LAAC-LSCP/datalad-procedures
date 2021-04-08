@@ -18,7 +18,8 @@ ds = require_dataset(
 
 dataset_name = os.path.basename(ds.path)
 organization = 'LAAC-LSCP'
-template = 'https://github.com/LAAC-LSCP/laac-template'
+template = 'https://github.com/LAAC-LSCP/laac1-template'
+cluster_alias = os.getenv('CLUSTER_ALIAS')
 
 # remove files to be replaced
 os.remove(os.path.join(sys.argv[1], ".gitattributes"))
@@ -56,8 +57,9 @@ repo.git.add('*')
 repo.git.commit(m = "initial commit")
 
 url = open(os.path.join(sys.argv[1], '.datalad/path')).read().strip()
-if os.getenv('CLUSTER_ALIAS'):
-    url = "ssh://{}{}".format(os.getenv('CLUSTER_ALIAS'), url)
+
+if cluster_alias:
+    url = "ssh://{}{}".format(cluster_alias, url)
 
 # create the cluster sibling
 datalad.api.create_sibling(
