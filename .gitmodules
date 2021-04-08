@@ -1,0 +1,3 @@
+[submodule "el1000-template"]
+	path = el1000-template
+	url = git@github.com:LAAC-LSCP/el1000-template.git
