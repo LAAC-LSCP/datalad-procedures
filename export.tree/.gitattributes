@@ -1,4 +1,0 @@
-
-* annex.backend=MD5E
-* annex.largefiles=nothing
-**/.git* annex.largefiles=nothing
