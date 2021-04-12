@@ -7,3 +7,6 @@
 	url = git@github.com:LAAC-LSCP/laac1-template.git
 	datalad-id = 9857761d-9fc3-4884-9a2f-7e28b4682f26
 	datalad-url = git@github.com:LAAC-LSCP/laac1-template.git
+[submodule "templates/laac2"]
+	path = templates/laac2
+	url = git@github.com:LAAC-LSCP/laac2-template.git
