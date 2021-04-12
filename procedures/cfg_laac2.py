@@ -18,17 +18,17 @@ ds = require_dataset(
 
 dataset_name = os.path.basename(ds.path)
 el1000_organization = 'EL1000'
-laac_organization = 'LAAC-LSCP'
+private_organization = 'LAAC-LSCP'
 
 # remove files to be replaced
 os.remove(os.path.join(sys.argv[1], ".gitattributes"))
 
-res = requests.get("https://github.com/LAAC-LSCP/el1000-template/archive/master.zip")
+res = requests.get("https://github.com/LAAC-LSCP/laac2-template/archive/master.zip")
 open("master.zip", "wb").write(res.content)
 
 with zipfile.ZipFile("master.zip") as zip_file:
     for member in zip_file.namelist():
-        filename = member.replace("el1000-template-master/", "")
+        filename = member.replace("laac2-template-master/", "")
 
         source = zip_file.open(member)
         dest = os.path.join(sys.argv[1], filename)
@@ -47,7 +47,7 @@ with zipfile.ZipFile("master.zip") as zip_file:
 
 os.remove("master.zip")
 
-open(os.path.join(sys.argv[1], '.datalad/path'), 'w+').write(os.path.join('/scratch1/data/laac_data/', dataset_name))
+open(os.path.join(sys.argv[1], '.datalad/path'), 'w+').write(os.path.join('/scratch1/data/private_data/', dataset_name))
 
 # commit everything
 repo = Repo(sys.argv[1])
@@ -56,12 +56,12 @@ repo.git.commit(m = "initial commit")
 
 el1000_url = "git@gin.g-node.org:/{}/{}.git".format(el1000_organization, dataset_name)
 confidential_url = "git@gin.g-node.org:/{}/{}-confidential.git".format(el1000_organization, dataset_name)
-laac_url = "git@gin.g-node.org:/{}/{}.git".format(laac_organization, dataset_name)
+private_url = "git@gin.g-node.org:/{}/{}.git".format(private_organization, dataset_name)
 
 siblings = {
-    'el1000': {'url': el1000_url, 'wanted': '(include=*) and (exclude=**/confidential/*) and (exclude=recordings/*) and (exclude=)'},
+    'el1000': {'url': el1000_url, 'wanted': '(include=*) and (exclude=**/confidential/*) and (exclude=recordings/*) and (exclude=**/private/*)'},
     'confidential': {'url': confidential_url, 'wanted': 'include=**/confidential/*'},
-    'origin': {'url': laac_url, 'wanted': 'include=*' }
+    'origin': {'url': private_url, 'wanted': 'include=*' }
 }
 
 master = repo.heads.master
