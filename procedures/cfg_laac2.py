@@ -102,5 +102,5 @@ datalad.api.siblings(
     name = 'origin',
     dataset = ds,
     action = 'configure',
-    publish_depends = list(({siblings.keys()} & available_siblings) - {'origin', origin})
+    publish_depends = list( (set(siblings.keys) & available_siblings) - {'origin', origin} )
 )
