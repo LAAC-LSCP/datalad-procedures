@@ -59,32 +59,35 @@ confidential_url = "git@gin.g-node.org:/{}/{}-confidential.git".format(el1000_or
 private_url = "git@gin.g-node.org:/{}/{}.git".format(private_organization, dataset_name)
 
 siblings = {
+    'private': {'url': private_url, 'wanted': 'include=*' },
     'el1000': {'url': el1000_url, 'wanted': '(include=*) and (exclude=**/confidential/*) and (exclude=recordings/*) and (exclude=**/private/*)'},
-    'confidential': {'url': confidential_url, 'wanted': 'include=**/confidential/*'},
-    'origin': {'url': private_url, 'wanted': 'include=*' }
+    'confidential': {'url': confidential_url, 'wanted': 'include=**/confidential/*'}
 }
 
 master = repo.heads.master
 master.rename('main')
 
+origin = 'private'
+
 for sibling_name in siblings:
     sibling = siblings[sibling_name]
+    name = 'origin' if sibling_name == origin else sibling_name
     
     datalad.api.siblings(
-        name = ,
+        name = name,
         dataset = ds,
         action = 'add',
         url = sibling['url']
     )
 
-    datalad.api.push(dataset = ds, to = sibling_name)   
-
+    datalad.api.push(dataset = ds, to = name)
 
 for sibling_name in siblings:
     sibling = siblings[sibling_name]
+    name = 'origin' if sibling_name == origin else sibling_name
 
     datalad.api.siblings(
-        name = sibling_name,
+        name = name,
         dataset = ds,
         action = 'configure',
         annex_wanted = sibling['wanted'],
@@ -92,3 +95,12 @@ for sibling_name in siblings:
     )
 
 master.set_tracking_branch(repo.remotes.origin.refs.main)
+
+available_siblings = {sibling['name'] for sibling in datalad.api.siblings(dataset = ds)}
+
+datalad.api.siblings(
+    name = 'origin',
+    dataset = ds,
+    action = 'configure',
+    publish_depends = list(({siblings.keys()} & available_siblings) - {'origin', origin})
+)
