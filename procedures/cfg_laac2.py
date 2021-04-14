@@ -60,8 +60,8 @@ private_url = "git@gin.g-node.org:/{}/{}.git".format(private_organization, datas
 
 siblings = {
     'private': {'url': private_url, 'wanted': 'include=*' },
-    'el1000': {'url': el1000_url, 'wanted': '(include=*) and (exclude=**/confidential/*) and (exclude=recordings/*) and (exclude=**/private/*)'},
-    'confidential': {'url': confidential_url, 'wanted': 'include=**/confidential/*'}
+    'el1000': {'url': el1000_url, 'wanted': '(metadata=EL1000=*) and (exclude=**/confidential/*)'},
+    'confidential': {'url': confidential_url, 'wanted': '(metadata=EL1000=*) and (include=**/confidential/*)'}
 }
 
 master = repo.heads.master
@@ -102,5 +102,5 @@ datalad.api.siblings(
     name = 'origin',
     dataset = ds,
     action = 'configure',
-    publish_depends = list( (set(siblings.keys) & available_siblings) - {'origin', origin} )
+    publish_depends = list( (set(siblings.keys()) & available_siblings) - {origin} )
 )
