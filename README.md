@@ -60,5 +60,6 @@ datalad create -c laac2 dataset-name
 
 ```bash
 export GIN_ORGANIZATION='EL1000' # name of your GIN organization
+export CONFIDENTIAL_DATASET=0 # set to 1 if there should be a confidential sibling
 datalad create -c el1000 dataset-name
 ```
