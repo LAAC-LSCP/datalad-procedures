@@ -33,6 +33,14 @@ python3 install.py
 datalad run-procedure --discover
 ```
 
+Expected output:
+
+> cfg_laac1 (/Users/acristia/ChildProjectVenv/lib/python3.6/site-packages/datalad/resources/procedures/cfg_laac1.py) [python_script]
+cfg_yoda (/Users/acristia/ChildProjectVenv/lib/python3.6/site-packages/datalad/resources/procedures/cfg_yoda.py) [python_script]
+cfg_el1000 (/Users/acristia/ChildProjectVenv/lib/python3.6/site-packages/datalad/resources/procedures/cfg_el1000.py) [python_script]
+cfg_text2git (/Users/acristia/ChildProjectVenv/lib/python3.6/site-packages/datalad/resources/procedures/cfg_text2git.py) [python_script]
+cfg_metadatatypes (/Users/acristia/ChildProjectVenv/lib/python3.6/site-packages/datalad/resources/procedures/cfg_metadatatypes.py) [python_script]
+cfg_laac2 (/Users/acristia/ChildProjectVenv/lib/python3.6/site-packages/datalad/resources/procedures/cfg_laac2.py) [python_script]
 
 ## Usage
 
@@ -52,7 +60,7 @@ export SSH_HOSTNAME="your.cluster.com" # hostname/alias of your ssh server
 datalad create -c laac1 dataset-name
 ```
 
-### The LAAC1 template
+### The LAAC2 template
 
 The LAAC2 template creates a dataset with three GIN siblings:
 
@@ -68,7 +76,10 @@ datalad create -c laac2 dataset-name
 
 ### The EL1000 template
 
-1. Create two *empty* repositories in your GIN organization: `<dataset-name>` and `<dataset-name>-confidential`, e.g. `dataset1` and `dataset1-confidential`.
+1. Using the browser capabilities on GIN, create two *empty* repositories in your GIN organization: `<dataset-name>` and `<dataset-name>-confidential`, e.g. `dataset1` and `dataset1-confidential`. Here's an example of creation of the first (i.e. non confidential:)
+
+![image](https://user-images.githubusercontent.com/7464861/116987198-0bbbd900-accf-11eb-9195-1cd30aeb3e68.png)
+
 
 2. Run the following script (edit the environment variables to suit your configuration):
 
@@ -76,4 +87,15 @@ datalad create -c laac2 dataset-name
 export GIN_ORGANIZATION='EL1000' # name of your GIN organization
 export CONFIDENTIAL_DATASET=0 # set to 1 if there should be a confidential sibling
 datalad create -c el1000 dataset-name
+```
+
+For instance, in the example above, we'd do:
+
+```bash
+export GIN_ORGANIZATION='EL1000' # name of your GIN organization
+export CONFIDENTIAL_DATASET=0 # set to 1 if there should be a confidential sibling
+datalad create -c el1000 rague
+export CONFIDENTIAL_DATASET=1 # set to 1 if there should be a confidential sibling
+datalad create -c el1000 rague-confidential
+
 ```
