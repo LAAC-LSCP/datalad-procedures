@@ -7,6 +7,12 @@ git clone git@github.com:LAAC-LSCP/datalad-procedures.git
 cd datalad-procedures
 ```
 
+### If needed, activate the ChildProjectVenv virtual environment
+
+```bash
+source ~/ChildProjectVenv/bin/activate
+```
+
 
 ### Install the dependencies
 
