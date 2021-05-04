@@ -1,5 +1,13 @@
 ## Installation instructions
 
+### Download the package
+
+```bash
+git clone git@github.com:LAAC-LSCP/datalad-procedures.git
+cd datalad-procedures
+```
+
+
 ### Install the dependencies
 
 ```bash
