@@ -76,9 +76,12 @@ datalad create -c laac2 dataset-name
 
 ### The EL1000 template
 
-1. Using the browser capabilities on GIN, create two *empty* repositories in your GIN organization: `<dataset-name>` and `<dataset-name>-confidential`, e.g. `dataset1` and `dataset1-confidential`. Here's an example of creation of the first (i.e. non confidential:)
+1. Using the browser capabilities on GIN, create two *empty* repositories in your GIN organization: `<dataset-name>` and `<dataset-name>-confidential`, e.g. `dataset1` and `dataset1-confidential`. Here's an example of creation of the first (i.e. non confidential); notice that in the last step, you need to uncheck the box at the bottom.
 
-![image](https://user-images.githubusercontent.com/7464861/116987198-0bbbd900-accf-11eb-9195-1cd30aeb3e68.png)
+![Screen Shot 2021-05-05 at 09 03 01](https://user-images.githubusercontent.com/7464861/117106856-df609500-ad80-11eb-8bee-394083c920a6.png)
+
+![image](https://user-images.githubusercontent.com/7464861/117107064-467e4980-ad81-11eb-9861-f6466b437caf.png)
+
 
 
 2. Run the following script (edit the environment variables to suit your configuration):
