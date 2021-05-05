@@ -1,16 +1,21 @@
 ## Installation instructions
 
+### If needed, activate the ChildProjectVenv virtual environment
+
+```bash
+source ~/ChildProjectVenv/bin/activate
+```
+
+If the above line doesn't work, you may have installed ChildProject generally, rather than in a virtual environment. 
+
+!Warning! If none of this rings a bell, you may have not installed ChildProject at all. To do so, follow [these instrutions](https://childproject.readthedocs.io/en/latest/install.html)
+
+
 ### Download the package
 
 ```bash
 git clone git@github.com:LAAC-LSCP/datalad-procedures.git
 cd datalad-procedures
-```
-
-### If needed, activate the ChildProjectVenv virtual environment
-
-```bash
-source ~/ChildProjectVenv/bin/activate
 ```
 
 
@@ -26,6 +31,9 @@ pip3 install -r requirements.txt
 ```bash
 python3 install.py
 ```
+
+At this point, a message may ask you if you want to establish a fingerprint; say yes.
+
 
 ### Check the installation
 
@@ -76,9 +84,10 @@ datalad create -c laac2 dataset-name
 
 ### The EL1000 template
 
-1. Using the browser capabilities on GIN, create two *empty* repositories in your GIN organization: `<dataset-name>` and `<dataset-name>-confidential`, e.g. `dataset1` and `dataset1-confidential`. Here's an example of creation of the first (i.e. non confidential); notice that in the last step, you need to uncheck the box at the bottom.
+1. Using the browser capabilities on GIN, create two *empty* repositories in your GIN organization: `<dataset-name>` and `<dataset-name>-confidential`, e.g. `dataset1` and `dataset1-confidential`. Here's an example of creation of the first (i.e. non confidential); notice that (a) you need to create the repo from the organization (and not your personal account) and (b) you need to uncheck the box at the bottom during actual creation.
 
-![Screen Shot 2021-05-05 at 09 03 01](https://user-images.githubusercontent.com/7464861/117106856-df609500-ad80-11eb-8bee-394083c920a6.png)
+![image](https://user-images.githubusercontent.com/7464861/117114235-dd500380-ad8b-11eb-873d-d47be02f659d.png)
+
 
 ![image](https://user-images.githubusercontent.com/7464861/117107064-467e4980-ad81-11eb-9861-f6466b437caf.png)
 
@@ -92,11 +101,17 @@ export CONFIDENTIAL_DATASET=0 # set to 1 if there should be a confidential sibli
 datalad create -c el1000 dataset-name
 ```
 
-For instance, in the example above, we'd do:
+For instance, in the example above, we'd do the following, because this is a dataset that has some confidential content:
 
 ```bash
 export GIN_ORGANIZATION='EL1000' # name of your GIN organization
 export CONFIDENTIAL_DATASET=1 # set to 1 if there should be a confidential sibling
 datalad create -c el1000 rague
+```
+And here is an example of a dataset that has some no content:
 
+```bash
+export GIN_ORGANIZATION='EL1000' # name of your GIN organization
+export CONFIDENTIAL_DATASET=0 # set to 1 if there should be a confidential sibling
+datalad create -c el1000 lyon
 ```
