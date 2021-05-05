@@ -77,12 +77,33 @@ The LAAC2 template creates a dataset with three GIN siblings:
  - One containing all non-confidential data
 
 
+Since this relies on GIN, you need to make sure to set up your ssh key:
+
+1. go to https://gin.g-node.org/
+2. log in
+3. click on top right on your avatar, choose parameters
+4. click on SSH keys at the left, then click on add a key
+5. do cat ~/.ssh/id_rsa.pub -- if you get an error, that means your computer does not yet have an ssh key, so follow [these instructions](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key) to create one; if not, copy the output and paste it into the key area
+
+Then you can create datasets as follows:
+
 ```bash
 export GIN_ORGANIZATION="LAAC-LSCP" # name of your GitHub organization
 datalad create -c laac2 dataset-name
 ```
 
 ### The EL1000 template
+
+Since this template relies on GIN, you need to make sure to set up your ssh key:
+
+1. go to https://gin.g-node.org/
+2. log in
+3. click on top right on your avatar, choose parameters
+4. click on SSH keys at the left, then click on add a key
+5. do cat ~/.ssh/id_rsa.pub -- if you get an error, that means your computer does not yet have an ssh key, so follow [these instructions](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key) to create one; if not, copy the output and paste it into the key area
+
+Then you can create datasets as follows:
+
 
 1. Using the browser capabilities on GIN, create two *empty* repositories in your GIN organization: `<dataset-name>` and `<dataset-name>-confidential`, e.g. `dataset1` and `dataset1-confidential`. Here's an example of creation of the first (i.e. non confidential); notice that (a) you need to create the repo from the organization (and not your personal account) and (b) you need to uncheck the box at the bottom during actual creation.
 
