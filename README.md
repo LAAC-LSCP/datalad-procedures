@@ -8,7 +8,7 @@ source ~/ChildProjectVenv/bin/activate
 
 If the above line doesn't work, you may have installed ChildProject generally, rather than in a virtual environment. 
 
-!Warning! If none of this rings a bell, you may have not installed ChildProject at all. To do so, follow [these instrutions](https://childproject.readthedocs.io/en/latest/install.html)
+!Warning! If none of this rings a bell, you may have not installed ChildProject at all. To do so, follow [these instructions](https://childproject.readthedocs.io/en/latest/install.html)
 
 
 ### Download the package
