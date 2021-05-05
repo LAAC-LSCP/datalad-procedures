@@ -96,9 +96,7 @@ For instance, in the example above, we'd do:
 
 ```bash
 export GIN_ORGANIZATION='EL1000' # name of your GIN organization
-export CONFIDENTIAL_DATASET=0 # set to 1 if there should be a confidential sibling
-datalad create -c el1000 rague
 export CONFIDENTIAL_DATASET=1 # set to 1 if there should be a confidential sibling
-datalad create -c el1000 rague-confidential
+datalad create -c el1000 rague
 
 ```
