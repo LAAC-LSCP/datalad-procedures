@@ -136,3 +136,21 @@ export GIN_ORGANIZATION='EL1000' # name of your GIN organization
 export CONFIDENTIAL_DATASET=0 # set to 1 if there should be a confidential sibling
 datalad create -c el1000 lyon
 ```
+The output you'll see looks like this:
+
+> [INFO   ] Creating a new annex repo at /Users/acristia/Documents/git-data/rague 
+[INFO   ] Scanning for unlocked files (this may take some time) 
+[INFO   ] Running procedure cfg_el1000 
+[INFO   ] == Command start (output follows) ===== 
+[INFO   ] Could not enable annex remote origin. This is expected if origin is a pure Git remote, or happens if it is not accessible. 
+[WARNING] Could not detect whether origin carries an annex. If origin is a pure Git remote, this is expected.  
+.: origin(-) [git@gin.g-node.org:/EL1000/rague.git (git)]
+.: origin(+) [git@gin.g-node.org:/EL1000/rague.git (git)]                       
+[INFO   ] Could not enable annex remote confidential. This is expected if confidential is a pure Git remote, or happens if it is not accessible. 
+[WARNING] Could not detect whether confidential carries an annex. If confidential is a pure Git remote, this is expected.  
+.: confidential(-) [git@gin.g-node.org:/EL1000/rague-confidential.git (git)]
+.: confidential(+) [git@gin.g-node.org:/EL1000/rague-confidential.git (git)]    
+[INFO   ] Configure additional publication dependency on "confidential"         
+.: origin(+) [git@gin.g-node.org:/EL1000/rague.git (git)]
+[INFO   ] == Command exit (modification check follows) ===== 
+create(ok): /Users/acristia/Documents/git-data/rague (dataset)
