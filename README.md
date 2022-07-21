@@ -49,8 +49,70 @@ cfg_el1000 (/Users/acristia/ChildProjectVenv/lib/python3.6/site-packages/datalad
 cfg_text2git (/Users/acristia/ChildProjectVenv/lib/python3.6/site-packages/datalad/resources/procedures/cfg_text2git.py) [python_script]
 cfg_metadatatypes (/Users/acristia/ChildProjectVenv/lib/python3.6/site-packages/datalad/resources/procedures/cfg_metadatatypes.py) [python_script]
 cfg_laac2 (/Users/acristia/ChildProjectVenv/lib/python3.6/site-packages/datalad/resources/procedures/cfg_laac2.py) [python_script]
+cfg_laac (/Users/acristia/ChildProjectVenv/lib/python3.6/site-packages/datalad/resources/procedures/cfg_laac.py) [python_script]
 
 ## Usage
+
+### The LAAC template
+
+This is the default template you should use most of the time. This will use GIN for hosting the different siblings of your dataset.
+
+This template can create up to 3 remotes:
+- origin : this is the default remote, it will hold all the annexed data except for the data stored under `confidential` folder(s)
+- confidential : this remote only stores the content of confidential files (under a `confidential` folder, wherever in the dataset)
+- public : this remote holds the data that we consider non sensitive, converted automated annotation content can be shared without risk so this includes:
+    - vtc converted annotations : under `annotations/vtc/converted`
+    - vcm converted annotations : under `annotations/vcm/converted`
+    - alice converted annotations : under `annotations/alice/output/converted` which is usually the conversion of the alice output and `annotations/alice/converted` which is usually the merge of alice and vtc (to get the speaker_type information)
+    - its converted annotations : under `annotations/its/converted`
+
+Keep in mind that those are fixed path so when adding annotations, use those exact names of set to make sure it gets correctly published to your public remote.
+
+Because we use GIN for hosting your remote repositories, you need to make sure to set up your ssh key:
+
+1. go to https://gin.g-node.org/
+2. log in
+3. click on top right on your avatar, choose parameters
+4. click on SSH keys at the left, then click on add a key
+5. do cat ~/.ssh/id_rsa.pub -- if you get an error, that means your computer does not yet have an ssh key, so follow [these instructions](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key) to create one; if not, copy the output and paste it into the key area
+
+Then you can create datasets as follows:
+
+1. Using the browser capabilities on GIN, create three (depending on if you have confidential/public repos, could be 1 or 2) **empty** repositories in your GIN organization: `<dataset-name>` , `<dataset-name>-public` and `<dataset-name>-confidential`, e.g. `dataset1` , `dataset1-public` and `dataset1-confidential`. Here's an example of creation of the first (i.e. non confidential and non public); notice that (a) you need to create the repo from the organization (and not your personal account) and (b) you need to uncheck the box at the bottom during actual creation.
+
+![image](https://user-images.githubusercontent.com/7464861/117114235-dd500380-ad8b-11eb-873d-d47be02f659d.png)
+
+
+![image](https://user-images.githubusercontent.com/7464861/117107064-467e4980-ad81-11eb-9861-f6466b437caf.png)
+
+
+2. Run the following script (edit the environment variables to suit your configuration):
+
+```bash
+export GIN_ORGANIZATION='LAAC-LSCP' # name of your GIN organization
+export CONFIDENTIAL_DATASET=0 # set to 1 if there should be a confidential sibling
+export PUBLIC_DATASET=0 # set to 1 if there should be a public sibling
+datalad create -c laac dataset-name
+```
+
+The output you'll see looks something like this:
+
+> [INFO   ] Creating a new annex repo at /Users/acristia/Documents/git-data/rague 
+[INFO   ] Scanning for unlocked files (this may take some time) 
+[INFO   ] Running procedure cfg_laac 
+[INFO   ] == Command start (output follows) ===== 
+[INFO   ] Could not enable annex remote origin. This is expected if origin is a pure Git remote, or happens if it is not accessible. 
+[WARNING] Could not detect whether origin carries an annex. If origin is a pure Git remote, this is expected.  
+.: origin(-) [git@gin.g-node.org:/LAAC-LSCP/rague.git (git)]
+.: origin(+) [git@gin.g-node.org:/LAAC-LSCP/rague.git (git)]                       
+[INFO   ] Could not enable annex remote confidential. This is expected if confidential is a pure Git remote, or happens if it is not accessible. 
+[WARNING] Could not detect whether confidential carries an annex. If confidential is a pure Git remote, this is expected.  
+.: confidential(-) [git@gin.g-node.org:/LAAC-LSCP/rague-confidential.git (git)]
+.: confidential(+) [git@gin.g-node.org:/LAAC-LSCP/rague-confidential.git (git)]    
+[INFO   ] Configure additional publication dependency on "confidential"         
+.: origin(+) [git@gin.g-node.org:/LAAC-LSCP/rague.git (git)]
+[INFO   ] == Command exit (modification check follows) ===== 
+create(ok): /Users/acristia/Documents/git-data/rague (dataset)
 
 ### The LAAC1 template
 
@@ -93,6 +155,8 @@ datalad create -c laac2 dataset-name
 ```
 
 ### The EL1000 template
+
+You should not use this template anymore as the LAAC template can do the same (and more)
 
 Since this template relies on GIN, you need to make sure to set up your ssh key:
 
