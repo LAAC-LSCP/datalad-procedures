@@ -1,9 +1,11 @@
 ## Installation instructions
 
+This assumes you've already installed ChildProject. If you haven't, start following [these instructions](https://childproject.readthedocs.io/en/latest/install.html)
+
 ### If needed, activate the ChildProjectVenv virtual environment
 
 ```bash
-source ~/ChildProjectVenv/bin/activate
+conda activate childproject
 ```
 
 If the above line doesn't work, you may have installed ChildProject generally, rather than in a virtual environment. 
