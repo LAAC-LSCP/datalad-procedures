@@ -57,6 +57,15 @@ repo = Repo(sys.argv[1])
 repo.git.add('*')
 repo.git.commit(m = "initial commit")
 
+if 'main' not in repo.heads:
+    if 'master' in repo.heads:
+        master = repo.heads.master
+        master.rename('main')
+    else:
+        raise ValueError(f"Could not find branch <main> nor <master>")
+else:
+    master = repo.heads.main
+
 url = open(os.path.join(sys.argv[1], '.datalad/path')).read().strip()
 
 if ssh_hostname:

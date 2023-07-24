@@ -67,8 +67,14 @@ datalad.api.siblings(
     url = url
 )
 
-master = repo.heads.master
-master.rename('main')
+if 'main' not in repo.heads:
+    if 'master' in repo.heads:
+        master = repo.heads.master
+        master.rename('main')
+    else:
+        raise ValueError(f"Could not find branch <main> nor <master>")
+else:
+    master = repo.heads.main
 
 datalad.api.push(dataset = ds, to = 'origin')   
 
